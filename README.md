@@ -1,6 +1,6 @@
 # track-training
 
-> [!import]
+> [!IMPORTANT]
 > This project is under development.
 > Completed at 11% of the project.
 
