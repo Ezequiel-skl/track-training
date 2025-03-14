@@ -1,4 +1,4 @@
-import { useStoreTheme, ToogleTheme } from "../components/ToogleTheme";
+import { useStoreTheme, ToogleTheme } from "../components/ToggleTheme";
 import { BG_DARK_THEME, BG_LIGHT_THEME } from "../const";
 import { Outlet } from "react-router";
 
