@@ -1,8 +1,8 @@
 # track-training
 
-[!import]
-This project is under development.
-Completed at 11% of the project.
+> [!import]
+> This project is under development.
+> Completed at 11% of the project.
 
 ## 📝 Tasks
 
