@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M4 7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7zM16 3v4M8 3v4M4 11h16M11 15h1M12 15v3"/>
+  <style>
+    :root {
+      --light-color: #333333;
+      --dark-color: #ffffff;
+    }
+    @media (prefers-color-scheme: dark) {
+      .icon-color {
+        fill: var(--dark-color);
+        stroke: var(--dark-color);
+      }
+    }
+    @media (prefers-color-scheme: light) {
+      .icon-color {
+        fill: var(--light-color);
+        stroke: var(--light-color);
+      }
+    }
+  </style>
+</svg>
