@@ -1,6 +1,6 @@
 import { useId, useState, useImperativeHandle, forwardRef } from "react";
 import type { CalendarWeekHandle } from "@/types/CalendarWeekHandle";
-import { DAYS } from "@/const/date";
+import { DAYS_NAMES } from "@/const/date";
 
 export const CalendarWeek = forwardRef<CalendarWeekHandle>((_, ref) => {
 	const [days, setDays] = useState<string[]>([]);
@@ -23,7 +23,7 @@ export const CalendarWeek = forwardRef<CalendarWeekHandle>((_, ref) => {
 
 	return (
 		<div className="p-4 border-2 border-gray-400 rounded-lg flex gap-2 items-center">
-			{DAYS.map((day) => (
+			{DAYS_NAMES.map((day) => (
 				<button
 					type="button"
 					key={useId()}
