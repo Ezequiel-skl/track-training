@@ -1,19 +1,10 @@
 import { useState } from "react";
+import type { JSX } from "react";
+import { MONTHS_NAMES, DAYS_NAMES } from "@/const/date";
 
-import { DAYS, MONTHS } from "@/const/date";
-
-interface CalendarMonthProps {
-	daysTraining: string[];
-	daysCheck: string[];
-	daysMissed: string[];
-}
-
-export default function CalendarMonth({
-	daysTraining,
-	daysCheck,
-	daysMissed,
-}: CalendarMonthProps) {
+export default function CalendarMonth() {
 	const [currentData, setCurrentData] = useState(new Date());
+	const [daysTraining, setDaysTraining] = useState<string[]>([]);
 
 	const getFirstDayOfMonth = ({
 		year,
@@ -46,14 +37,14 @@ export default function CalendarMonth({
 		);
 	};
 
-	const YEAR = currentData.getFullYear();
-	const MONTH = currentData.getMonth();
+	const year = currentData.getFullYear();
+	const month = currentData.getMonth();
 
-	const firstDayOfMonth = getFirstDayOfMonth({ year: YEAR, month: MONTH });
-	const daysInMonth = getDaysOnMonth({ year: YEAR, month: MONTH });
+	const firstDayOfMonth = getFirstDayOfMonth({ year: year, month: month });
+	const daysInMonth = getDaysOnMonth({ year: year, month: month });
 
 	const handleDateClick = (day: number) => {
-		const clickedDate = new Date(YEAR, MONTH, day);
+		const clickedDate = new Date(year, month, day);
 		console.log(`You clicked ${clickedDate.toDateString()}`);
 	};
 
@@ -62,19 +53,25 @@ export default function CalendarMonth({
 		const cells = [];
 
 		for (let i = 0; i < firstDayOfMonth; i++) {
-			cells.push(<td key={`empty-${i}`} className="p-2 border" />);
+			cells.push(
+				<td key={`empty-${i}`} className="p-2 border-2 border-gray-400" />,
+			);
 		}
 
 		for (let day = 1; day <= daysInMonth; day++) {
+			const currentDay = new Date(year, month, day);
+
 			const isToday =
 				day === today.getDate() &&
-				today.getMonth() === MONTH &&
-				today.getFullYear() === YEAR;
+				today.getMonth() === month &&
+				today.getFullYear() === year;
+
+			const isMonday = currentDay.getDay() === 1;
 
 			cells.push(
 				<td
 					key={day}
-					className={`p-2 border text-center ${isToday ? "bg-blue-200" : ""}`}
+					className={`p-2 border-2 border-gray-400 hover:cursor-pointer hover:opacity-90 text-center ${isToday ? "bg-blue-200" : ""}`}
 				>
 					<button type="button" onClick={() => handleDateClick(day)}>
 						{day}
@@ -82,23 +79,65 @@ export default function CalendarMonth({
 				</td>,
 			);
 		}
+
+		return cells;
 	};
 
 	// Arrange cell into rows (weeks)
-	const renderRows = () => {
-		const cells = renderCells();
-		const rows = [];
-		let cellInRow = [];
+	const renderRows = (): React.ReactElement[] => {
+		const cells: React.ReactElement[] = renderCells();
+		const rows: React.ReactElement[] = [];
+		let cellsInRow: React.ReactElement[] = [];
 
-		cells.forEach((cell, index) => {
-			cellInRow.push(cell);
+		cells.forEach((cell: JSX.Element, index: number) => {
+			cellsInRow.push(cell);
 
 			if ((index + 1) % 7 === 0 || index === cells.length - 1) {
-				rows.push(<tr key={`row-${rows.length}`}>{cellInRow}</tr>);
-				cellInRow = [];
+				rows.push(<tr key={`row-${rows.length}`}>{cellsInRow}</tr>);
+				cellsInRow = [];
 			}
 		});
+
+		return rows;
 	};
 
-	return <div>CalendarMonth</div>;
+	return (
+		<section className="max-w-md mx-auto p-4 border-2 border-gray-400 rounded-lg min-h-[372px]">
+			<div className="flex justify-between items-center mb-4">
+				<button
+					onClick={prevMonth}
+					className="px-3 py-1 border-2 border-gray-400 rounded-lg hover:cursor-pointer hover:opacity-90"
+					type="button"
+				>
+					&lt;
+				</button>
+				<h2 className="text-xl font-bold">
+					{MONTHS_NAMES[month]} {year}
+				</h2>
+				<button
+					onClick={nextMonth}
+					className="px-3 py-1 border-2 border-gray-400 rounded-lg hover:cursor-pointer hover:opacity-90"
+					type="button"
+				>
+					&gt;
+				</button>
+			</div>
+
+			<table className="w-full border-collapse">
+				<thead>
+					<tr>
+						{DAYS_NAMES.map((day) => (
+							<th
+								key={day}
+								className="p-2 border-2 border-gray-400 rounded-lg hover:cursor-pointer hover:opacity-90"
+							>
+								{day}
+							</th>
+						))}
+					</tr>
+				</thead>
+				<tbody>{renderRows()}</tbody>
+			</table>
+		</section>
+	);
 }
