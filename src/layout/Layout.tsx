@@ -1,5 +1,5 @@
 import { useStoreTheme, ToogleTheme } from "../components/ToggleTheme";
-import { BG_DARK_THEME, BG_LIGHT_THEME } from "../const";
+import { BG_DARK_THEME, BG_LIGHT_THEME } from "../const/bgTheme";
 import { Outlet } from "react-router";
 
 export default function Layout() {
