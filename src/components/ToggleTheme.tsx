@@ -1,18 +1,12 @@
-import { create } from "zustand";
-
-type Store = {
-	theme: "light" | "dark";
-	toogleTheme: () => void;
-};
-
-const useStoreTheme = create<Store>()((set) => ({
-	theme: "light",
-	toogleTheme: () =>
-		set((state) => ({ theme: state.theme === "light" ? "dark" : "light" })),
-}));
+import { useEffect } from "react";
+import { useStoreTheme } from "../store/themeStore";
 
 function ToogleTheme({ classList }: { classList?: string }) {
 	const { theme, toogleTheme } = useStoreTheme();
+
+	useEffect(() => {
+		document.documentElement.setAttribute("data-theme", theme);
+	}, [theme]);
 
 	const title = theme === "light" ? "Toggle dark mode" : "Toggle light mode";
 
