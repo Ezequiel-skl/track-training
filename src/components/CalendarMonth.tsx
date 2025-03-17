@@ -1,10 +1,19 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { JSX } from "react";
 import { MONTHS_NAMES, DAYS_NAMES } from "@/const/date";
+import MarkedDaySvg from "@/assets/MarkedDaySvg";
 
 export default function CalendarMonth() {
 	const [currentData, setCurrentData] = useState(new Date());
-	const [daysTraining, setDaysTraining] = useState<string[]>([]);
+	const [daysTraining, setDaysTraining] = useState<number[]>([]);
+
+	useEffect(() => {
+		const daysStorage = localStorage.getItem("day");
+
+		if (daysStorage) {
+			setDaysTraining(JSON.parse(daysStorage));
+		}
+	}, []);
 
 	const getFirstDayOfMonth = ({
 		year,
@@ -66,14 +75,24 @@ export default function CalendarMonth() {
 				today.getMonth() === month &&
 				today.getFullYear() === year;
 
-			const isMonday = currentDay.getDay() === 1;
+			const daysOfWeek = currentDay.getDay();
+			const dayMakedTraining = daysTraining.includes(daysOfWeek);
 
 			cells.push(
 				<td
 					key={day}
-					className={`p-2 border-2 border-gray-400 hover:cursor-pointer hover:opacity-90 text-center ${isToday ? "bg-blue-200" : ""}`}
+					className={`
+            p-2 border-2 border-gray-400 hover:cursor-pointer hover:opacity-90 text-center relative
+            overflow-hidden
+          `}
 				>
-					<button type="button" onClick={() => handleDateClick(day)}>
+					{dayMakedTraining && <MarkedDaySvg color="#ffc9c9" />}
+					{isToday && <MarkedDaySvg color="blue" />}
+					<button
+						type="button"
+						onClick={() => handleDateClick(day)}
+						className="w-full h-full relative z-10"
+					>
 						{day}
 					</button>
 				</td>,
