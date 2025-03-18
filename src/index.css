@@ -4,3 +4,13 @@
   width: 100dvw;
   height: 100dvh;
 }
+
+.darkTheme {
+  color: white;
+  fill: white;
+}
+
+.lightTheme {
+  color: black;
+  fill: black;
+}
