@@ -1,25 +1,9 @@
-import { useId, useState, useImperativeHandle, forwardRef } from "react";
-import type { CalendarWeekHandle } from "@/types/CalendarWeekHandle";
+import { useId } from "react";
 import { DAYS_NAMES } from "@/const/date";
+import { useDayTraining } from "@/store/dayTrainingStore";
 
-export const CalendarWeek = forwardRef<CalendarWeekHandle>((_, ref) => {
-	const [days, setDays] = useState<number[]>([]);
-
-	const handleClick = (dayIndex: number) => {
-		setDays((prev) =>
-			prev.includes(dayIndex)
-				? prev.filter((d) => d !== dayIndex)
-				: [...prev, dayIndex],
-		);
-	};
-
-	const handleStoreDays = () => {
-		localStorage.setItem("day", JSON.stringify(days));
-	};
-
-	useImperativeHandle(ref, () => ({
-		saveDays: handleStoreDays,
-	}));
+export default function CalendarWeek() {
+	const { days, toggleDay } = useDayTraining();
 
 	return (
 		<div className="p-4 border-2 border-gray-400 rounded-lg flex gap-2 items-center">
@@ -35,7 +19,7 @@ export const CalendarWeek = forwardRef<CalendarWeekHandle>((_, ref) => {
               w-[70px] h-[70px] text-center border-2 border-gray-400 rounded-lg font-semibold 
               hover:cursor-pointer hover:opacity-90
             `}
-						onClick={() => handleClick(index)}
+						onClick={() => toggleDay(index)}
 					>
 						{day}
 					</button>
@@ -43,4 +27,4 @@ export const CalendarWeek = forwardRef<CalendarWeekHandle>((_, ref) => {
 			})}
 		</div>
 	);
-});
+}
