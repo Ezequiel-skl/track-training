@@ -1,16 +1,15 @@
-import { useRef } from "react";
-import { CalendarWeek } from "@/components/CalendarWeek";
-import type { CalendarWeekHandle } from "@/types/CalendarWeekHandle";
+import CalendarWeek from "@/components/CalendarWeek";
 import { useNavigate } from "react-router";
+import { useDayTraining } from "@/store/dayTrainingStore";
 
 export default function TrainingDays() {
-	const daysRef = useRef<CalendarWeekHandle | null>(null);
+	const { saveDays, days } = useDayTraining();
 	const navigate = useNavigate();
 
 	const handlePushDataDay = () => {
-		if (daysRef.current) {
-			daysRef.current.saveDays();
+		if (days.length >= 1) {
 			navigate("/home");
+			saveDays();
 		}
 	};
 
@@ -20,7 +19,7 @@ export default function TrainingDays() {
 				<header className="mb-10">
 					<h1 className="text-5xl font-bold">Training days</h1>
 				</header>
-				<CalendarWeek ref={daysRef} />
+				<CalendarWeek />
 				<footer className="mt-10 flex justify-end w-full">
 					<button
 						onClick={handlePushDataDay}
