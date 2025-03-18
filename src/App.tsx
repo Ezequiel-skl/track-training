@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import Layout from "./layout/Layout";
 import Home from "./page/Home";
 import TrainingDays from "./page/TrainingDays";
+import Config from "./page/Config";
 
 import { Route, Routes, BrowserRouter, useNavigate } from "react-router";
 import dynamicFavicon from "./utils/dynamicFavicon";
@@ -28,6 +29,7 @@ function App() {
 				<Route path="/" element={<Layout />}>
 					<Route path="/" element={<CheckTrackDay />} />
 					<Route path="/home" element={<Home />} />
+					<Route path="/config" element={<Config />} />
 				</Route>
 			</Routes>
 		</BrowserRouter>
