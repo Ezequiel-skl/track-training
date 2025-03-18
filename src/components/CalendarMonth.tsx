@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import type { JSX } from "react";
 import { MONTHS_NAMES, DAYS_NAMES } from "@/const/date";
 import MarkedDaySvg from "@/assets/MarkedDaySvg";
+import ChebronIcon from "@/assets/ChebronIcon";
 
 export default function CalendarMonth() {
 	const [currentData, setCurrentData] = useState(new Date());
@@ -61,6 +62,9 @@ export default function CalendarMonth() {
 		const today = new Date();
 		const cells = [];
 
+		const weekLastStarting = new Date();
+		weekLastStarting.setDate(weekLastStarting.getDate() + 7);
+
 		for (let i = 0; i < firstDayOfMonth; i++) {
 			cells.push(
 				<td key={`empty-${i}`} className="p-2 border-2 border-gray-400" />,
@@ -76,7 +80,12 @@ export default function CalendarMonth() {
 				today.getFullYear() === year;
 
 			const daysOfWeek = currentDay.getDay();
+
+			const weekStartTrack = currentDay >= weekLastStarting;
+
 			const dayMakedTraining = daysTraining.includes(daysOfWeek);
+
+			const shouldShowSvg = dayMakedTraining && weekStartTrack;
 
 			cells.push(
 				<td
@@ -86,7 +95,7 @@ export default function CalendarMonth() {
             overflow-hidden
           `}
 				>
-					{dayMakedTraining && <MarkedDaySvg color="#ffc9c9" />}
+					{shouldShowSvg && <MarkedDaySvg color="#ffc9c9" />}
 					{isToday && <MarkedDaySvg color="blue" />}
 					<button
 						type="button"
@@ -125,20 +134,20 @@ export default function CalendarMonth() {
 			<div className="flex justify-between items-center mb-4">
 				<button
 					onClick={prevMonth}
-					className="px-3 py-1 border-2 border-gray-400 rounded-lg hover:cursor-pointer hover:opacity-90"
+					className="p-3 border-2 border-gray-400 rounded-lg hover:cursor-pointer hover:opacity-90"
 					type="button"
 				>
-					&lt;
+					<ChebronIcon left strokeWidth={2} />
 				</button>
 				<h2 className="text-xl font-bold">
 					{MONTHS_NAMES[month]} {year}
 				</h2>
 				<button
 					onClick={nextMonth}
-					className="px-3 py-1 border-2 border-gray-400 rounded-lg hover:cursor-pointer hover:opacity-90"
+					className="p-3 border-2 border-gray-400 rounded-lg hover:cursor-pointer hover:opacity-90"
 					type="button"
 				>
-					&gt;
+					<ChebronIcon strokeWidth={2} />
 				</button>
 			</div>
 
